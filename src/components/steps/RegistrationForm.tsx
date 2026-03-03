@@ -307,11 +307,10 @@ export default function RegistrationForm({ onSuccess }: { onSuccess: (id: string
                     <AnimatePresence>
                         {isAviationPro && (
                             <motion.div
-                                initial={{ opacity: 0, y: -20, height: 0 }}
-                                animate={{ opacity: 1, y: 0, height: "auto" }}
-                                exit={{ opacity: 0, y: -20, height: 0 }}
+                                initial={{ opacity: 0, y: -20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -20 }}
                                 transition={{ duration: 0.3, ease: "easeInOut" }}
-                                className="overflow-hidden"
                             >
                                 <div className="pt-0 h-full flex flex-col justify-end">
                                     <FieldWrapper label="Aviation Role" icon={<Plane size={18} />} error={errors.aviationRole}>
