@@ -1,6 +1,7 @@
-import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
-import { Calendar, MapPin, Clock, CheckCircle } from "lucide-react";
+import { Calendar, MapPin, Clock, CheckCircle, ChevronLeft, ChevronRight, Download, X, Maximize2 } from "lucide-react";
 
 export default function EventDetails({ onNext }: { onNext: () => void }) {
     const highlights = [
@@ -10,29 +11,112 @@ export default function EventDetails({ onNext }: { onNext: () => void }) {
         "Networking with Aviation Professionals",
     ];
 
+    const flyers = [
+        "/event_flyer.jpeg",
+        "/event_flyer2.jpeg",
+        "/event_flyer3.jpeg"
+    ];
+
+    const [currentFlyer, setCurrentFlyer] = useState(0);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    useEffect(() => {
+        if (isModalOpen) return;
+        const timer = setInterval(() => {
+            setCurrentFlyer((prev) => (prev + 1) % flyers.length);
+        }, 5000); // 5 seconds per slide
+        return () => clearInterval(timer);
+    }, [flyers.length, isModalOpen]);
+
+    const handleNext = () => setCurrentFlyer((prev) => (prev + 1) % flyers.length);
+    const handlePrev = () => setCurrentFlyer((prev) => (prev - 1 + flyers.length) % flyers.length);
+
+    const handleDownload = () => {
+        const link = document.createElement("a");
+        link.href = flyers[currentFlyer];
+        link.download = flyers[currentFlyer].split("/").pop() || "flyer.jpeg";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+
     return (
         <div className="w-full flex flex-col md:flex-row gap-8 bg-white/40 backdrop-blur-xl p-6 md:p-8 rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.04)] ring-1 ring-brand-primary/10">
 
             {/* Flyer Image Container */}
             <motion.div
-                className="w-full md:w-1/2 rounded-[1.5rem] overflow-hidden relative shadow-lg group aspect-[4/5] md:aspect-auto h-[400px] md:h-auto"
+                className="w-full md:w-1/2 rounded-[1.5rem] overflow-hidden relative shadow-lg group min-h-[450px] md:min-h-[600px] bg-white/30"
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.5, ease: "easeOut" }}
             >
-                <Image
-                    src="/event_flyer.jpeg"
-                    alt="Event Flyer"
-                    fill
-                    className="object-cover transition-transform duration-700 group-hover:scale-105"
-                    sizes="(max-width: 768px) 100vw, 50vw"
-                />
+                <AnimatePresence>
+                    <motion.div
+                        key={currentFlyer}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 1, ease: "easeInOut" }}
+                        className="absolute inset-0 w-full h-full"
+                    >
+                        <Image
+                            src={flyers[currentFlyer]}
+                            alt={`Event Flyer ${currentFlyer + 1}`}
+                            fill
+                            className="object-contain transition-transform duration-700 group-hover:scale-[1.02]"
+                            sizes="(max-width: 768px) 100vw, 50vw"
+                            priority={currentFlyer === 0}
+                        />
+                    </motion.div>
+                </AnimatePresence>
 
-                {/* Floating Badge */}
-                <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-4 py-2 rounded-full shadow-md backdrop-filter backdrop-saturate-150">
-                    <span className="text-sm font-bold tracking-widest uppercase text-brand-primary">
-                        Give to Gain
-                    </span>
+                {/* Navigation and Actions Overlay */}
+                <div className="absolute inset-0 flex flex-col justify-between p-4 z-10 pointer-events-none">
+                    <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <button
+                            onClick={() => setIsModalOpen(true)}
+                            className="bg-white/90 backdrop-blur-md p-2 rounded-full shadow-md text-brand-primary hover:bg-brand-primary hover:text-white transition-colors pointer-events-auto"
+                            title="Enlarge Flyer"
+                        >
+                            <Maximize2 size={20} />
+                        </button>
+                        <button
+                            onClick={handleDownload}
+                            className="bg-white/90 backdrop-blur-md p-2 rounded-full shadow-md text-brand-primary hover:bg-brand-primary hover:text-white transition-colors pointer-events-auto"
+                            title="Download Flyer"
+                        >
+                            <Download size={20} />
+                        </button>
+                    </div>
+
+                    <div className="flex justify-between items-center mb-auto mt-auto opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <button
+                            onClick={handlePrev}
+                            className="bg-white/90 backdrop-blur-md p-2 rounded-full shadow-md text-brand-primary hover:bg-brand-primary hover:text-white transition-colors pointer-events-auto bg-opacity-70"
+                            aria-label="Previous Slide"
+                        >
+                            <ChevronLeft size={24} />
+                        </button>
+                        <button
+                            onClick={handleNext}
+                            className="bg-white/90 backdrop-blur-md p-2 rounded-full shadow-md text-brand-primary hover:bg-brand-primary hover:text-white transition-colors pointer-events-auto bg-opacity-70"
+                            aria-label="Next Slide"
+                        >
+                            <ChevronRight size={24} />
+                        </button>
+                    </div>
+
+                    <div className="flex justify-center gap-2 mt-auto pb-2 pointer-events-auto opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        {flyers.map((_, idx) => (
+                            <button
+                                key={idx}
+                                onClick={() => setCurrentFlyer(idx)}
+                                className={`w-2.5 h-2.5 rounded-full transition-all ${currentFlyer === idx ? "bg-brand-primary scale-125 w-5 shadow-sm" : "bg-black/30 hover:bg-black/50"
+                                    }`}
+                                aria-label={`Go to slide ${idx + 1}`}
+                            />
+                        ))}
+                    </div>
                 </div>
             </motion.div>
 
@@ -95,6 +179,69 @@ export default function EventDetails({ onNext }: { onNext: () => void }) {
                     Register Now
                 </motion.button>
             </motion.div>
+
+            {/* Fullscreen Image Modal */}
+            <AnimatePresence>
+                {isModalOpen && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 md:p-8"
+                        onClick={() => setIsModalOpen(false)}
+                    >
+                        <div className="absolute top-4 right-4 md:top-8 md:right-8 flex gap-4 z-[110]">
+                            <button
+                                onClick={(e) => { e.stopPropagation(); handleDownload(); }}
+                                className="bg-brand-primary hover:bg-brand-dark text-white p-2 rounded-full shadow-lg transition-colors"
+                                title="Download Flyer"
+                            >
+                                <Download size={32} />
+                            </button>
+                            <button
+                                onClick={() => setIsModalOpen(false)}
+                                className="bg-white/10 hover:bg-white/20 text-white p-2 rounded-full transition-colors"
+                                title="Close"
+                            >
+                                <X size={32} />
+                            </button>
+                        </div>
+
+                        <div className="flex justify-between items-center absolute inset-y-0 left-4 right-4 pointer-events-none z-[110]">
+                            <button
+                                onClick={(e) => { e.stopPropagation(); handlePrev(); }}
+                                className="bg-white/20 hover:bg-white/40 backdrop-blur-md p-3 rounded-full text-white transition-colors pointer-events-auto"
+                            >
+                                <ChevronLeft size={32} />
+                            </button>
+                            <button
+                                onClick={(e) => { e.stopPropagation(); handleNext(); }}
+                                className="bg-white/20 hover:bg-white/40 backdrop-blur-md p-3 rounded-full text-white transition-colors pointer-events-auto"
+                            >
+                                <ChevronRight size={32} />
+                            </button>
+                        </div>
+
+                        <motion.div
+                            initial={{ scale: 0.9, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            exit={{ scale: 0.9, opacity: 0 }}
+                            transition={{ type: "spring", damping: 25, stiffness: 300 }}
+                            className="relative w-full h-full max-w-5xl max-h-[90vh]"
+                            onClick={(e) => e.stopPropagation()} // Prevent closing when clicking the image itself
+                        >
+                            <Image
+                                src={flyers[currentFlyer]}
+                                alt={`Event Flyer ${currentFlyer + 1} Enlarged`}
+                                fill
+                                className="object-contain"
+                                sizes="100vw"
+                            />
+                        </motion.div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </div>
     );
 }
+
