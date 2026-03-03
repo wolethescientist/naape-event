@@ -36,7 +36,9 @@ export async function sendEmail({
 }
 
 export function generateAttendeeConfirmationEmail(firstName: string, registrationId: string) {
-  const zoomLink = process.env.EVENT_ZOOM_LINK || "#";
+  const zoomLink = process.env.EVENT_ZOOM_LINK || "https://us05web.zoom.us/j/85992016590?pwd=XGICdMoGzNxKNqwcqUFEggVCAqnElg.1";
+  const zoomMeetingId = process.env.EVENT_ZOOM_MEETING_ID || "859 9201 6590";
+  const zoomPasscode = process.env.EVENT_ZOOM_PASSCODE || "wnAP1x";
   const address = process.env.EVENT_ADDRESS || "NCAA Conference Hall, Lagos";
 
   return `
@@ -70,6 +72,11 @@ export function generateAttendeeConfirmationEmail(firstName: string, registratio
           <h2 style="color: #1E1B4B; font-size: 20px;">Virtual Access</h2>
           <p style="color: #4B5563;">If you're joining us online, you can use the link below:</p>
           <a href="${zoomLink}" style="display: inline-block; background: #8a258f; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold; margin-top: 10px;">Join via Zoom</a>
+          <div style="margin-top: 20px; color: #4B5563; font-size: 14px; line-height: 1.6;">
+            <p style="margin: 5px 0;"><strong>Meeting ID:</strong> ${zoomMeetingId}</p>
+            <p style="margin: 5px 0;"><strong>Passcode:</strong> ${zoomPasscode}</p>
+            <p style="margin: 5px 0;"><strong>Join Instructions:</strong> <a href="https://us05web.zoom.us/meetings/85992016590/invitations?signature=kMO-iGqCQD7fyNZb5TjZEUT2MSYalUARz-JrgYF-hbs" style="color: #8a258f; text-decoration: none;">View Details</a></p>
+          </div>
         </div>
 
         <div style="background: #fbf0fd; border: 1px solid #ebc8f2; padding: 25px; rounded: 8px; margin: 30px 0;">

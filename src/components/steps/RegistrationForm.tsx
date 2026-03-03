@@ -32,6 +32,7 @@ export default function RegistrationForm({ onSuccess }: { onSuccess: (id: string
         organization: "",
         description: "",
         aviationRole: "",
+        otherAviationRole: "",
     });
 
     const [errors, setErrors] = useState<Partial<Record<keyof AttendeeData, string>>>({});
@@ -77,8 +78,12 @@ export default function RegistrationForm({ onSuccess }: { onSuccess: (id: string
         if (!formData.employer.trim()) newErrors.employer = "Employer is required";
         if (!formData.organization.trim()) newErrors.organization = "Organization is required";
         if (!formData.description) newErrors.description = "Please select a description";
-        if (formData.description === "Aviation/Aerospace Professional" && !formData.aviationRole) {
-            newErrors.aviationRole = "Please select your aviation role";
+        if (formData.description === "Aviation/Aerospace Professional") {
+            if (!formData.aviationRole) {
+                newErrors.aviationRole = "Please select your aviation role";
+            } else if (formData.aviationRole === "Other" && (!formData.otherAviationRole || !formData.otherAviationRole.trim())) {
+                newErrors.otherAviationRole = "Please specify your role";
+            }
         }
 
         setErrors(newErrors);
@@ -105,10 +110,15 @@ export default function RegistrationForm({ onSuccess }: { onSuccess: (id: string
                 }
             }
 
+            const payload = { ...formData };
+            if (payload.aviationRole === "Other" && payload.otherAviationRole) {
+                payload.aviationRole = payload.otherAviationRole;
+            }
+
             const res = await fetch("/api/register", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(formData),
+                body: JSON.stringify(payload),
             });
 
             const data = await res.json();
@@ -310,7 +320,10 @@ export default function RegistrationForm({ onSuccess }: { onSuccess: (id: string
                     <FieldWrapper label="What best describes you?" icon={<User size={18} />} error={errors.description}>
                         <CustomSelect
                             value={formData.description}
-                            onChange={(val) => handleChange({ target: { name: "description", value: val } } as any)}
+                            onChange={(val) => {
+                                setFormData(prev => ({ ...prev, description: val }));
+                                if (errors.description) setErrors(prev => ({ ...prev, description: undefined }));
+                            }}
                             options={DESCRIPTIONS}
                             placeholder="Select an option"
                             hasError={!!errors.description}
@@ -329,12 +342,36 @@ export default function RegistrationForm({ onSuccess }: { onSuccess: (id: string
                                     <FieldWrapper label="Aviation Role" icon={<Plane size={18} />} error={errors.aviationRole}>
                                         <CustomSelect
                                             value={formData.aviationRole}
-                                            onChange={(val) => handleChange({ target: { name: "aviationRole", value: val } } as any)}
+                                            onChange={(val) => {
+                                                setFormData(prev => ({ ...prev, aviationRole: val }));
+                                                if (errors.aviationRole) setErrors(prev => ({ ...prev, aviationRole: undefined }));
+                                            }}
                                             options={AVIATION_ROLES}
                                             placeholder="Select your role"
                                             hasError={!!errors.aviationRole}
                                         />
                                     </FieldWrapper>
+
+                                    <AnimatePresence>
+                                        {formData.aviationRole === "Other" && (
+                                            <motion.div
+                                                initial={{ opacity: 0, height: 0, marginTop: 0 }}
+                                                animate={{ opacity: 1, height: "auto", marginTop: 16 }}
+                                                exit={{ opacity: 0, height: 0, marginTop: 0 }}
+                                                className="overflow-hidden"
+                                            >
+                                                <FieldWrapper label="Specify Your Role" icon={<Briefcase size={18} />} error={errors.otherAviationRole}>
+                                                    <input
+                                                        name="otherAviationRole"
+                                                        value={formData.otherAviationRole || ""}
+                                                        onChange={handleChange}
+                                                        placeholder="Type your aviation role"
+                                                        className={inputClasses(!!errors.otherAviationRole)}
+                                                    />
+                                                </FieldWrapper>
+                                            </motion.div>
+                                        )}
+                                    </AnimatePresence>
                                 </div>
                             </motion.div>
                         )}

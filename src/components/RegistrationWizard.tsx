@@ -21,6 +21,7 @@ export type AttendeeData = {
     organization: string;
     description: string;
     aviationRole: string;
+    otherAviationRole?: string;
 };
 
 export default function RegistrationWizard() {

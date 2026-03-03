@@ -23,7 +23,7 @@ export default function IWDEventPage() {
             </header>
 
             {/* Main Content */}
-            <div className="relative z-10 flex-grow flex flex-col items-center justify-start px-4 md:px-8 pb-12 w-full max-w-7xl mx-auto">
+            <div className="relative z-10 flex-grow flex flex-col items-center justify-start px-4 md:px-8 pb-32 mb-16 w-full max-w-7xl mx-auto">
                 <RegistrationWizard />
             </div>
 

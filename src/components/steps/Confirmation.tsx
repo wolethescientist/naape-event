@@ -87,12 +87,20 @@ export default function Confirmation({ registrationId, onReset }: { registration
                             <div>
                                 <p className="font-bold text-brand-dark mb-1">Virtual Access</p>
                                 <a
-                                    href="#"
+                                    href="https://us05web.zoom.us/j/85992016590?pwd=XGICdMoGzNxKNqwcqUFEggVCAqnElg.1"
                                     className="text-brand-primary text-sm font-bold tracking-wide hover:underline inline-block break-all"
                                     target="_blank"
+                                    rel="noopener noreferrer"
                                 >
-                                    Join via Zoom
+                                    Join via Zoom link
                                 </a>
+                                <div className="mt-2 text-sm text-brand-dark/70 space-y-1">
+                                    <p><span className="font-semibold text-brand-dark">Meeting ID:</span> 859 9201 6590</p>
+                                    <p><span className="font-semibold text-brand-dark">Passcode:</span> wnAP1x</p>
+                                    <p>
+                                        <a href="https://us05web.zoom.us/meetings/85992016590/invitations?signature=kMO-iGqCQD7fyNZb5TjZEUT2MSYalUARz-JrgYF-hbs" target="_blank" rel="noopener noreferrer" className="text-brand-primary hover:underline">Read Joining Instructions</a>
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
