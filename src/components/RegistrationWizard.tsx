@@ -139,7 +139,7 @@ export default function RegistrationWizard() {
                             animate={{ opacity: 1, scale: 1 }}
                             transition={{ duration: 0.4, type: "spring", bounce: 0.4 }}
                         >
-                            <Confirmation registrationId={registrationId} />
+                            <Confirmation registrationId={registrationId} onReset={() => { setStep(1); setRegistrationId(""); }} />
                         </motion.div>
                     )}
                 </AnimatePresence>

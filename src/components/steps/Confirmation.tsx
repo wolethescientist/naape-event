@@ -1,9 +1,8 @@
 import { motion } from "framer-motion";
 import { CheckCircle, Calendar, MapPin, Video, Copy, ChevronLeft, Camera } from "lucide-react";
-import Link from "next/link";
 import { useState } from "react";
 
-export default function Confirmation({ registrationId }: { registrationId: string }) {
+export default function Confirmation({ registrationId, onReset }: { registrationId: string; onReset: () => void }) {
     const [copied, setCopied] = useState(false);
 
     const handleCopy = () => {
@@ -132,13 +131,13 @@ export default function Confirmation({ registrationId }: { registrationId: strin
                 >
                     Add to Calendar
                 </button>
-                <Link
-                    href="/iwd-event"
+                <button
+                    onClick={onReset}
                     className="flex-1 py-4 bg-white border border-brand-primary/20 text-brand-dark font-bold tracking-widest uppercase rounded-2xl flex items-center justify-center gap-2 hover:bg-brand-light transition-colors duration-300 shadow-sm"
                 >
                     <ChevronLeft size={18} />
                     Back to Home
-                </Link>
+                </button>
             </div>
 
         </div>
