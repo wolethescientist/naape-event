@@ -92,6 +92,19 @@ export default function RegistrationForm({ onSuccess }: { onSuccess: (id: string
 
         setIsSubmitting(true);
         try {
+            // Re-check capacity right before submitting in case it filled up
+            if (formData.attendanceMode === "Onsite") {
+                const capRes = await fetch("/api/register/capacity");
+                const capData = await capRes.json();
+                if (!capData.onsiteAvailable) {
+                    setCapacity(capData);
+                    setFormData(prev => ({ ...prev, attendanceMode: "" }));
+                    setSubmitError("Onsite capacity just filled up! Please select Online attendance instead.");
+                    setIsSubmitting(false);
+                    return;
+                }
+            }
+
             const res = await fetch("/api/register", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
