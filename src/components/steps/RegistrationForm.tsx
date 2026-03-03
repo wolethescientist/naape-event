@@ -40,7 +40,7 @@ export default function RegistrationForm({ onSuccess }: { onSuccess: (id: string
     const [submitError, setSubmitError] = useState("");
 
     useEffect(() => {
-        // Check onsite capacity
+
         const fetchCapacity = async () => {
             try {
                 const res = await fetch("/api/register/capacity");
