@@ -57,7 +57,8 @@ export default function EventDetails({ onNext }: { onNext: () => void }) {
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         transition={{ duration: 1, ease: "easeInOut" }}
-                        className="absolute inset-0 w-full h-full"
+                        className="absolute inset-0 w-full h-full cursor-pointer"
+                        onClick={() => setIsModalOpen(true)}
                     >
                         <Image
                             src={flyers[currentFlyer]}
@@ -72,7 +73,7 @@ export default function EventDetails({ onNext }: { onNext: () => void }) {
 
                 {/* Navigation and Actions Overlay */}
                 <div className="absolute inset-0 flex flex-col justify-between p-4 z-10 pointer-events-none">
-                    <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <div className="flex justify-end gap-2 opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                         <button
                             onClick={() => setIsModalOpen(true)}
                             className="bg-white/90 backdrop-blur-md p-2 rounded-full shadow-md text-brand-primary hover:bg-brand-primary hover:text-white transition-colors pointer-events-auto"
@@ -89,7 +90,7 @@ export default function EventDetails({ onNext }: { onNext: () => void }) {
                         </button>
                     </div>
 
-                    <div className="flex justify-between items-center mb-auto mt-auto opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <div className="flex justify-between items-center mb-auto mt-auto opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                         <button
                             onClick={handlePrev}
                             className="bg-white/90 backdrop-blur-md p-2 rounded-full shadow-md text-brand-primary hover:bg-brand-primary hover:text-white transition-colors pointer-events-auto bg-opacity-70"
@@ -106,7 +107,7 @@ export default function EventDetails({ onNext }: { onNext: () => void }) {
                         </button>
                     </div>
 
-                    <div className="flex justify-center gap-2 mt-auto pb-2 pointer-events-auto opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <div className="flex justify-center gap-2 mt-auto pb-2 pointer-events-auto opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                         {flyers.map((_, idx) => (
                             <button
                                 key={idx}
