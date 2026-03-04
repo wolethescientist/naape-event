@@ -82,7 +82,7 @@ export function generateAttendeeConfirmationEmail(firstName: string, registratio
         <div style="background: #fbf0fd; border: 1px solid #ebc8f2; padding: 25px; rounded: 8px; margin: 30px 0;">
           <h2 style="margin-top: 0; color: #1E1B4B; font-size: 20px;">📸 Create Your Event Banner!</h2>
           <p style="color: #4B5563;">Join the movement and share your excitement! Create your custom selfie banner to post on your socials.</p>
-          <a href="https://getdp.co/vbH" style="display: inline-block; background: #c29a5b; color: #1f0b22; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold; margin-top: 10px;">Create My Banner</a>
+          <a href="https://getdp.co/vcu" style="display: inline-block; background: #c29a5b; color: #1f0b22; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold; margin-top: 10px;">Create My Banner</a>
         </div>
 
         <p style="font-size: 16px; color: #4B5563; line-height: 1.6;">We look forward to seeing you!</p>

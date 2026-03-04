@@ -122,7 +122,7 @@ export default function Confirmation({ registrationId, onReset }: { registration
                     Show your support by creating a custom selfie banner and sharing it on your socials with the hashtag <span className="text-brand-primary font-bold">#GiveToGain</span>.
                 </p>
                 <a
-                    href="https://getdp.co/vbH"
+                    href="https://getdp.co/vcu"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="z-10 py-3 px-8 bg-brand-accent text-white hover:text-brand-dark text-sm font-bold tracking-widest uppercase rounded-2xl shadow-lg hover:-translate-y-1 hover:shadow-brand-accent/40 hover:bg-white transition-all duration-300"
