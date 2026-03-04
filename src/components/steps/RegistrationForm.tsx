@@ -84,6 +84,8 @@ export default function RegistrationForm({ onSuccess }: { onSuccess: (id: string
             } else if (formData.aviationRole === "Other" && (!formData.otherAviationRole || !formData.otherAviationRole.trim())) {
                 newErrors.otherAviationRole = "Please specify your role";
             }
+        } else if (formData.description === "Other" && (!formData.otherAviationRole || !formData.otherAviationRole.trim())) {
+            newErrors.otherAviationRole = "Please specify your role";
         }
 
         setErrors(newErrors);
@@ -111,8 +113,10 @@ export default function RegistrationForm({ onSuccess }: { onSuccess: (id: string
             }
 
             const payload = { ...formData };
-            if (payload.aviationRole === "Other" && payload.otherAviationRole) {
+            if (payload.description === "Aviation/Aerospace Professional" && payload.aviationRole === "Other" && payload.otherAviationRole) {
                 payload.aviationRole = payload.otherAviationRole;
+            } else if (payload.description === "Other" && payload.otherAviationRole) {
+                payload.description = payload.otherAviationRole;
             }
 
             const res = await fetch("/api/register", {
@@ -373,6 +377,24 @@ export default function RegistrationForm({ onSuccess }: { onSuccess: (id: string
                                         )}
                                     </AnimatePresence>
                                 </div>
+                            </motion.div>
+                        )}
+                        {formData.description === "Other" && (
+                            <motion.div
+                                initial={{ opacity: 0, height: 0, marginTop: 0 }}
+                                animate={{ opacity: 1, height: "auto", marginTop: 16 }}
+                                exit={{ opacity: 0, height: 0, marginTop: 0 }}
+                                className="overflow-hidden"
+                            >
+                                <FieldWrapper label="Specify Your Role" icon={<Briefcase size={18} />} error={errors.otherAviationRole}>
+                                    <input
+                                        name="otherAviationRole"
+                                        value={formData.otherAviationRole || ""}
+                                        onChange={handleChange}
+                                        placeholder="Type your role"
+                                        className={inputClasses(!!errors.otherAviationRole)}
+                                    />
+                                </FieldWrapper>
                             </motion.div>
                         )}
                     </AnimatePresence>
