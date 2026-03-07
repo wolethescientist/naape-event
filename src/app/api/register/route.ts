@@ -82,7 +82,9 @@ export async function POST(req: Request) {
 
         // Send Emails
         try {
-            console.log(`[Registration API] Attempting to send emails for registration ID ${registrationId}, attendee email ${data.email}`);
+            console.log(`[Registration API] Emails temporarily disabled pending fixes. Skipping emails for registration ID ${registrationId}, attendee email ${data.email}`);
+            
+            /* -- TEMPORARILY DISABLED: 
             const adminEmail = process.env.ADMIN_EMAIL;
 
             // Attendee Email
@@ -105,6 +107,7 @@ export async function POST(req: Request) {
             } else {
                 console.log(`[Registration API] No ADMIN_EMAIL found in environment variables, skipping admin notification.`);
             }
+            -- */
         } catch (emailError) {
             console.error("[Registration API] Email sending failed:", emailError);
         }

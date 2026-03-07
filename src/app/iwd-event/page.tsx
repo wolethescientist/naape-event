@@ -2,7 +2,7 @@ import RegistrationWizard from "@/components/RegistrationWizard";
 import Image from "next/image";
 
 export default function IWDEventPage() {
-    const isMaintenance = true; // TOGGLE THIS TO FALSE TO SEE THE FORM WHILE FIXING
+    const isMaintenance = false; // TOGGLE THIS TO FALSE TO SEE THE FORM WHILE FIXING
 
     return (
         <main className="flex-grow flex flex-col min-h-screen relative overflow-hidden">
@@ -37,7 +37,7 @@ export default function IWDEventPage() {
                             We're Upgrading!
                         </h1>
                         <p className="text-lg md:text-xl text-gray-700 mb-8 leading-relaxed">
-                            Registration is temporarily on hold while we perform some quick maintenance to improve your experience. 
+                            Registration is temporarily on hold while we perform some quick maintenance to improve your experience.
                             Please check back soon!
                         </p>
                     </div>
